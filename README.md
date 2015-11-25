@@ -1,6 +1,6 @@
-# virtual-template
+virtual-template
 ==============================
-Template engine using virtual-dom
+Template engine using virtual-dom.
 
 [![build](https://circleci.com/gh/livoras/virtual-template/tree/master.png?style=shield)](https://circleci.com/gh/livoras/virtual-template) 
 [![codecov.io](https://codecov.io/github/livoras/virtual-template/coverage.svg?branch=master)](https://codecov.io/github/livoras/virtual-template?branch=master) 
