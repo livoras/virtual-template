@@ -1,0 +1,36 @@
+{
+  "name": "virtual-template",
+  "version": "0.0.1",
+  "description": "Template engine using virtual-dom",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --watch lib --watch test --watch index.js --exec npm test",
+    "test": "standard && istanbul cover ./node_modules/mocha/bin/_mocha ./test/*.spec.js -- -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/livoras/virtual-template.git"
+  },
+  "keywords": [
+    "virtual-dom",
+    "template-engine"
+  ],
+  "author": "Livoras",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/livoras/virtual-template/issues"
+  },
+  "homepage": "https://github.com/livoras/virtual-template",
+  "dependencies": {
+    "simple-virtual-dom": "^0.1.2"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "codecov.io": "^0.1.6",
+    "jsdom": "^7.0.2",
+    "mocha": "^2.3.4",
+    "mocha-jsdom": "^1.0.0",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0"
+  }
+}
