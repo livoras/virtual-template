@@ -1,1 +1,1 @@
-module.exports = require('./lib/virtual-template')
+window.vTemplate = require('./lib/virtual-template')

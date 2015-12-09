@@ -15,7 +15,7 @@ describe('Make virtual-dom from html', function () {
     el.tagName.should.be.equal('ul')
   })
 
-  it('If has multiple roots, make a div wrapp them all.', function () {
+  it('If has multiple roots, make a div wrap them all.', function () {
     var el = h2v('<ul></ul><p></p>')
     el.tagName.should.be.equal('div')
   })

@@ -1,6 +1,6 @@
 /* global describe, it */
 
-var vt = require('../index')
+var vt = require('../lib/virtual-template')
 var chai = require('chai')
 var fs = require('fs')
 var template = require('art-template')

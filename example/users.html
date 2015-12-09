@@ -1,0 +1,60 @@
+<!doctype html>
+
+<html>
+<head>
+  <title>Virtual Template Example</title>
+  <script src="./template.js"></script>
+  <script src="../dist/virtual-template.js"></script>
+</head>
+
+<body>
+</body>
+
+<script id="user" type="text/template">
+  <h1>{firstName + ' ' + lastName}</h1>
+  <ul>
+    {each tags as value i}
+      {if i % 2 == 0}
+        <li style='color: red'>索引 {i + 1} ：{value}</li>
+      {else}
+        <li style='color: blue'>索引 {i + 1} ：{value}</li>
+      {/if}
+    {/each}
+  </ul>
+</script>
+
+<script>
+  template.config('openTag', '{')
+  template.config('closeTag', '}')
+
+  var userTpl = document.getElementById('user').innerHTML
+  var userCompiler = template.compile(userTpl)
+
+  // 用渲染函数构建虚拟模版类
+  var User = vTemplate(userCompiler)
+
+  var jerry = new User({
+    firstName: 'Jerry',
+    lastName: 'Green',
+  })
+
+  var lucy = new User({
+    firstName: 'Lucy',
+    lastName: 'Green',
+  })
+
+  // 把DOM插入文档中
+  document.body.appendChild(jerry.dom)
+  document.body.appendChild(lucy.dom)
+
+  setTimeout(function () {
+    jerry.setData({
+      firstName: 'Lucy'
+    })
+    lucy.setData({
+      lastName: 'Blue'
+    })
+  }, 1000)
+</script>
+
+</html>
