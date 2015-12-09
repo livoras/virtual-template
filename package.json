@@ -1,6 +1,6 @@
 {
   "name": "virtual-template",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Template engine using virtual-dom",
   "main": "lib/virtual-template.js",
   "scripts": {
