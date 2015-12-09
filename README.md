@@ -7,9 +7,14 @@ virtual-template
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
+## Install
+
+```html
+<script src="your-template-engine.js"></script>
+<script src="virtual-template/dist/virtual-template.min.js"></script>
+```
 
 ## How to use
-
 
 HTML:
 
