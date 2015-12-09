@@ -22,9 +22,10 @@
   },
   "homepage": "https://github.com/livoras/virtual-template",
   "dependencies": {
-    "simple-virtual-dom": "^0.1.2"
+    "simple-virtual-dom": "^0.1.4"
   },
   "devDependencies": {
+    "art-template": "^3.0.3",
     "chai": "^3.4.1",
     "codecov.io": "^0.1.6",
     "jsdom": "^7.0.2",
