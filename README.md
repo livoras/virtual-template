@@ -122,6 +122,32 @@ jerry.setData({
 ### setData(data)
 虚拟模版实例的方法，传入的data会extend（浅复制）到原来的旧的data上。然后会用新的data渲染HTML，从而构建virtual dom。新的virtual dom会和旧的virtual dom进行对比，跑一次 Virtual-DOM 算法，更新真正的DOM。
 
+## Contribution
+
+
+安装全局依赖：
+
+    npm install browserify standard nodemon mocha istanbul uglify-js -g
+
+
+clone源码：
+
+    git clone https://github.com/livoras/virtual-template.git
+
+安装开发时依赖：
+
+    cd virtual-template && npm install
+
+开发运行时：
+
+    npm run dev
+
+然后可以修改源码，编写单元测试。
+
+打包编译：
+
+    npm run build
+
 ## License
 The MIT License (MIT)
 
