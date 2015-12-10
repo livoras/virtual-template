@@ -1,7 +1,7 @@
 virtual-template
 ==============================
-[![build](https://circleci.com/gh/livoras/virtual-template/tree/master.png?style=shield)](https://circleci.com/gh/livoras/virtual-template?branch=artTemplate) 
-[![codecov.io](https://codecov.io/github/livoras/virtual-template/coverage.svg?branch=artTemplate)](https://codecov.io/github/livoras/virtual-template?branch=artTemplate) 
+[![build](https://circleci.com/gh/livoras/virtual-template/tree/master.png?style=shield)](https://circleci.com/gh/livoras/virtual-template?branch=master) 
+[![codecov.io](https://codecov.io/github/livoras/virtual-template/coverage.svg?branch=master)](https://codecov.io/github/livoras/virtual-template?branch=master) 
 [![Dependency Status](https://david-dm.org/livoras/virtual-template.svg)](https://david-dm.org/livoras/virtual-template)
 [![npm version](https://badge.fury.io/js/virtual-template.svg)](https://badge.fury.io/js/virtual-template) 
 
