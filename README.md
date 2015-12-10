@@ -95,11 +95,11 @@ setTimeout(function () {
 
 ### vTemplate(compileFunction, data)
 
-接受一个渲染函数和渲染数据，返回一个虚拟模版实例。实例包含一个`dom`和`setData`方法，`dom`为由渲染函数和数据渲染出来的真实的DOM。数据变更的时候通过`setData`方法改变数据状态，`dom`也会同步更新。
+接收一个渲染函数和渲染数据，返回一个虚拟模版实例。实例包含一个`dom`和`setData`方法，`dom`为由渲染函数和数据渲染出来的真实的DOM。数据变更的时候通过`setData`方法改变数据状态，`dom`也会同步更新。
 
 ### vTemplate(compileFunction)
 
-接受一个渲染函数，返回一个虚拟模版类，可以通过该类构建多个互不影响虚拟模版实例。
+接收一个渲染函数，返回一个虚拟模版类，可以通过该类构建多个互不影响虚拟模版实例。
 
 ```javascript
 var User = vTemplate(userCompiler)
@@ -120,7 +120,7 @@ jerry.setData({
 ```
 
 ### setData(data)
-虚拟模版实例的方法，传入的新的data会extend到原来的旧的data上。然后会用新的data渲染HTML，从而构建virtual dom；新的virtual dom会和旧的virtual dom进行对比；跑一次 Virtual-DOM 算法，更新真正的DOM。
+虚拟模版实例的方法，传入的data会extend（浅复制）到原来的旧的data上。然后会用新的data渲染HTML，从而构建virtual dom。新的virtual dom会和旧的virtual dom进行对比，跑一次 Virtual-DOM 算法，更新真正的DOM。
 
 ## License
 The MIT License (MIT)
