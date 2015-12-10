@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Virtual-template by livoras</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Virtual-template</h1>
+      <h2 class="project-tagline">Template engine using virtual-dom</h2>
+      <a href="https://github.com/livoras/virtual-template" class="btn">View on GitHub</a>
+      <a href="https://github.com/livoras/virtual-template/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/livoras/virtual-template/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="virtual-template" class="anchor" href="#virtual-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>virtual-template</h1>
+
+<p><a href="https://circleci.com/gh/livoras/virtual-template?branch=master"><img src="https://circleci.com/gh/livoras/virtual-template/tree/master.png?style=shield" alt="build"></a> 
+<a href="https://codecov.io/github/livoras/virtual-template?branch=master"><img src="https://codecov.io/github/livoras/virtual-template/coverage.svg?branch=master" alt="codecov.io"></a> 
+<a href="https://david-dm.org/livoras/virtual-template"><img src="https://david-dm.org/livoras/virtual-template.svg" alt="Dependency Status"></a>
+<a href="https://badge.fury.io/js/virtual-template"><img src="https://badge.fury.io/js/virtual-template.svg" alt="npm version"></a> </p>
+
+<p><a href="https://github.com/feross/standard"><img src="https://cdn.rawgit.com/feross/standard/master/badge.svg" alt="js-standard-style"></a></p>
+
+<h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>your-template-engine.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>virtual-template/dist/virtual-template.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use</h2>
+
+<p>HTML:</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/template<span class="pl-pds">"</span></span>&gt;
+  &lt;<span class="pl-ent">h1</span>&gt;{firstName + ' ' + lastName}&lt;/<span class="pl-ent">h1</span>&gt;
+  &lt;<span class="pl-ent">ul</span>&gt;
+    {each tags as value i}
+      {if i % 2 == 0}
+        &lt;<span class="pl-ent">li</span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">'</span>color: red<span class="pl-pds">'</span></span>&gt;索引 {i + 1} ：{value}&lt;/<span class="pl-ent">li</span>&gt;
+      {else}
+        &lt;<span class="pl-ent">li</span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">'</span>color: blue<span class="pl-pds">'</span></span>&gt;索引 {i + 1} ：{value}&lt;/<span class="pl-ent">li</span>&gt;
+      {/if}
+    {/each}
+  &lt;/<span class="pl-ent">ul</span>&gt;
+&lt;/<span class="pl-ent">script</span>&gt;
+
+<span class="pl-s1">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s1">  <span class="pl-c">// 构建渲染函数</span></span>
+<span class="pl-s1">  <span class="pl-k">var</span> userTpl <span class="pl-k">=</span> <span class="pl-smi">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">'</span>user<span class="pl-pds">'</span></span>).<span class="pl-smi">innerHTML</span></span>
+<span class="pl-s1">  <span class="pl-k">var</span> userCompiler <span class="pl-k">=</span> <span class="pl-smi">template</span>.<span class="pl-c1">compile</span>(userTpl)</span>
+<span class="pl-s1">&lt;/<span class="pl-ent">script</span>&gt;</span></pre></div>
+
+<h3>
+<a id="方式一单个模版实例" class="anchor" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%E5%8D%95%E4%B8%AA%E6%A8%A1%E7%89%88%E5%AE%9E%E4%BE%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>方式一：单个模版实例</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">// 用渲染函数构建虚拟模版实例</span>
+<span class="pl-k">var</span> user <span class="pl-k">=</span> <span class="pl-en">vTemplate</span>(userCompiler, {
+  firstName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Jerry<span class="pl-pds">'</span></span>,
+  lastName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Green<span class="pl-pds">'</span></span>,
+  tags<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>文艺<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>博客<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>摄影<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>电影<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>民谣<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>旅行<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>吉他<span class="pl-pds">'</span></span>]
+})
+
+<span class="pl-c">// 把DOM插入文档中</span>
+<span class="pl-smi">document</span>.<span class="pl-c1">body</span>.<span class="pl-c1">appendChild</span>(<span class="pl-smi">user</span>.<span class="pl-smi">dom</span>)
+
+<span class="pl-c1">setTimeout</span>(<span class="pl-k">function</span> () {
+  <span class="pl-c">// 一秒以后改变firstName状态，DOM会跟着改变</span>
+  <span class="pl-smi">user</span>.<span class="pl-en">setData</span>({
+    firstName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Tomy<span class="pl-pds">'</span></span>
+  })
+}, <span class="pl-c1">1000</span>)</pre></div>
+
+<h3>
+<a id="方式二多个模板实例" class="anchor" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%E5%A4%9A%E4%B8%AA%E6%A8%A1%E6%9D%BF%E5%AE%9E%E4%BE%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>方式二：多个模板实例</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">// 用渲染函数构建虚拟模版类</span>
+<span class="pl-k">var</span> User <span class="pl-k">=</span> <span class="pl-en">vTemplate</span>(userCompiler)
+
+<span class="pl-k">var</span> jerry <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">User</span>({
+  firstName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Jerry<span class="pl-pds">'</span></span>,
+  lastName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Green<span class="pl-pds">'</span></span>,
+})
+
+<span class="pl-k">var</span> lucy <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">User</span>({
+  firstName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Lucy<span class="pl-pds">'</span></span>,
+  lastName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Green<span class="pl-pds">'</span></span>,
+})
+
+<span class="pl-c">// 把DOM插入文档中</span>
+<span class="pl-smi">document</span>.<span class="pl-c1">body</span>.<span class="pl-c1">appendChild</span>(<span class="pl-smi">jerry</span>.<span class="pl-smi">dom</span>)
+<span class="pl-smi">document</span>.<span class="pl-c1">body</span>.<span class="pl-c1">appendChild</span>(<span class="pl-smi">lucy</span>.<span class="pl-smi">dom</span>)
+
+<span class="pl-c1">setTimeout</span>(<span class="pl-k">function</span> () {
+  <span class="pl-smi">jerry</span>.<span class="pl-en">setData</span>({
+    firstName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Tomy<span class="pl-pds">'</span></span>
+  })
+  <span class="pl-smi">lucy</span>.<span class="pl-en">setData</span>({
+    lastName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Blue<span class="pl-pds">'</span></span>
+  })
+}, <span class="pl-c1">1000</span>)</pre></div>
+
+<p>详细例子可以查看<code>example</code>目录。</p>
+
+<h2>
+<a id="api" class="anchor" href="#api" aria-hidden="true"><span class="octicon octicon-link"></span></a>API</h2>
+
+<h3>
+<a id="vtemplatecompilefunction-data" class="anchor" href="#vtemplatecompilefunction-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>vTemplate(compileFunction, data)</h3>
+
+<p>接收一个渲染函数和渲染数据，返回一个虚拟模版实例。实例包含一个<code>dom</code>和<code>setData</code>方法，<code>dom</code>为由渲染函数和数据渲染出来的真实的DOM。数据变更的时候通过<code>setData</code>方法改变数据状态，<code>dom</code>也会同步更新。</p>
+
+<h3>
+<a id="vtemplatecompilefunction" class="anchor" href="#vtemplatecompilefunction" aria-hidden="true"><span class="octicon octicon-link"></span></a>vTemplate(compileFunction)</h3>
+
+<p>接收一个渲染函数，返回一个虚拟模版类，可以通过该类构建多个互不影响虚拟模版实例。</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> User <span class="pl-k">=</span> <span class="pl-en">vTemplate</span>(userCompiler)
+
+<span class="pl-k">var</span> jerry <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">User</span>({
+  firstName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Jerry<span class="pl-pds">'</span></span>,
+  lastName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Green<span class="pl-pds">'</span></span>,
+})
+
+<span class="pl-k">var</span> lucy <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">User</span>({
+  firstName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Lucy<span class="pl-pds">'</span></span>,
+  lastName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Green<span class="pl-pds">'</span></span>,
+})
+
+<span class="pl-smi">jerry</span>.<span class="pl-en">setData</span>({
+  firstName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Tomy<span class="pl-pds">'</span></span>
+})</pre></div>
+
+<h3>
+<a id="setdatadata" class="anchor" href="#setdatadata" aria-hidden="true"><span class="octicon octicon-link"></span></a>setData(data)</h3>
+
+<p>虚拟模版实例的方法，传入的data会extend（浅复制）到原来的旧的data上。然后会用新的data渲染HTML，从而构建virtual dom。新的virtual dom会和旧的virtual dom进行对比，跑一次 Virtual-DOM 算法，更新真正的DOM。</p>
+
+<h2>
+<a id="contribution" class="anchor" href="#contribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contribution</h2>
+
+<p>安装全局依赖：</p>
+
+<pre><code>npm install browserify standard nodemon mocha istanbul uglify-js -g
+</code></pre>
+
+<p>clone源码：</p>
+
+<pre><code>git clone https://github.com/livoras/virtual-template.git
+</code></pre>
+
+<p>安装开发时依赖：</p>
+
+<pre><code>cd virtual-template &amp;&amp; npm install
+</code></pre>
+
+<p>开发运行时：</p>
+
+<pre><code>npm run dev
+</code></pre>
+
+<p>然后可以修改源码，编写单元测试。</p>
+
+<p>打包编译：</p>
+
+<pre><code>npm run build
+</code></pre>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>The MIT License (MIT)</p>
+
+<p>Copyright (c) 2015 Livoras</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/livoras/virtual-template">Virtual-template</a> is maintained by <a href="https://github.com/livoras">livoras</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
