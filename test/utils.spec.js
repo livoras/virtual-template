@@ -24,4 +24,15 @@ describe('Test utilities', function () {
       age: '12'
     })
   })
+
+  it('Test extend, never extend prototype', function () {
+    function User (name) {
+      this.name = name
+    }
+    User.prototype.age = 12
+    var jerry = new User('jerry')
+    var a = _.extend({}, jerry)
+    a.should.have.property('name')
+    a.should.not.have.property('age')
+  })
 })

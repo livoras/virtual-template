@@ -14,7 +14,7 @@ function read (name) {
 }
 
 describe('Test Virtual-Template', function () {
-  it('Accepet a compfiler function and return a class', function () {
+  it('Accepet a compiler function and return a class', function () {
     var userTpl = read('user.html')
     var userCompiler = template.compile(userTpl)
     var UserTemplate = vt(userCompiler)

@@ -20,7 +20,7 @@ describe('Make virtual-dom from html', function () {
     el.tagName.should.be.equal('div')
   })
 
-  it('DOM\'s innerHTML generated from virtual-dom should be the same with original html string', function () {
+  it('DOM\'s innerHTML generated from virtual-dom should be the same as original html string', function () {
     var breakREG = /\\r\\n/g
     var htmls = [
       fs.readFileSync(__dirname + '/fixtures/test1.html', 'utf-8'),
