@@ -21,7 +21,6 @@ describe('Make virtual-dom from html', function () {
   })
 
   it('DOM\'s innerHTML generated from virtual-dom should be the same as original html string', function () {
-    var breakREG = /\\r\\n/g
     var htmls = [
       fs.readFileSync(__dirname + '/fixtures/test1.html', 'utf-8'),
       fs.readFileSync(__dirname + '/fixtures/test2.html', 'utf-8'),
@@ -33,7 +32,7 @@ describe('Make virtual-dom from html', function () {
       var dom = el.render()
       var div = document.createElement('div')
       div.appendChild(dom)
-      var domString = div.innerHTML.replace(breakREG, '\\n')
+      var domString = div.innerHTML.replace(/\r\n/g, '\n')
       htmlString = htmlString.replace(/\r\n/g, '\n')
       domString.length.should.be.equal(htmlString.length)
       domString.should.be.equal(htmlString)
