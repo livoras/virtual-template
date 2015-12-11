@@ -4,7 +4,7 @@
   "description": "Template engine using virtual-dom",
   "main": "lib/virtual-template.js",
   "scripts": {
-    "dev": "NODE_ENV=dev nodemon --watch lib --watch test --watch index.js --exec npm test",
+    "dev": "sh dev.sh",
     "test": "standard && istanbul cover ./node_modules/mocha/bin/_mocha ./test/*.spec.js -- -R spec",
     "build": "browserify index.js > dist/virtual-template.js && uglifyjs dist/virtual-template.js > dist/virtual-template.min.js"
   },
