@@ -68,7 +68,7 @@ describe('Test Virtual-Template', function () {
     }, 40)
   })
 
-  it('Passing compiler with data', function () {
+  it('Passing compiler with data', function (done) {
     var userTpl = read('user.html')
     var userCompiler = template.compile(userTpl)
     var jerry = vt(userCompiler, {
@@ -81,10 +81,11 @@ describe('Test Virtual-Template', function () {
     jerry.setData({lastName: 'Dai'})
     setTimeout(function () {
       jerry.dom.children[0].innerHTML.should.be.equal('Jerry Dai')
+      done()
     }, 20)
   })
 
-  it('Callback after dom updated', function () {
+  it('Callback after dom updated', function (done) {
     var userTpl = read('user.html')
     var userCompiler = template.compile(userTpl)
     var jerry = vt(userCompiler, {
@@ -99,10 +100,11 @@ describe('Test Virtual-Template', function () {
     setTimeout(function () {
       jerry.dom.children[0].innerHTML.should.be.equal('Jerry Dai')
       spy.should.have.been.called
+      done()
     }, 20)
   })
 
-  it('Callback after dom updated', function () {
+  it('No callback after dom updated', function (done) {
     var userTpl = read('user.html')
     var userCompiler = template.compile(userTpl)
     var jerry = vt(userCompiler, {
@@ -115,6 +117,54 @@ describe('Test Virtual-Template', function () {
     jerry.setData({lastName: 'Dai'}, false)
     setTimeout(function () {
       jerry.dom.children[0].innerHTML.should.be.equal('Jerry Dai')
+      done()
+    }, 20)
+  })
+
+  it('Multiple updates, multiple callbacks', function (done) {
+    var userTpl = read('user.html')
+    var userCompiler = template.compile(userTpl)
+    var jerry = vt(userCompiler, {
+      firstName: 'Jerry',
+      lastName: 'Green',
+      age: 12,
+      introduction: 'I am Jerry!!'
+    })
+    var spy1 = sinon.spy()
+    var spy2 = sinon.spy()
+    jerry.setData({firstName: 'Lucy'}, spy1)
+    jerry.setData({lastName: 'Blue'}, spy2)
+    setTimeout(function () {
+      spy1.should.have.been.called
+      spy2.should.have.been.called
+      jerry.flushCallbacks.should.be.deep.equal([])
+      done()
+    }, 20)
+  })
+
+  it('Multiple callbacks should be call in order', function (done) {
+    var userTpl = read('user.html')
+    var userCompiler = template.compile(userTpl)
+    var jerry = vt(userCompiler, {
+      firstName: 'Jerry',
+      lastName: 'Green',
+      age: 12,
+      introduction: 'I am Jerry!!'
+    })
+    var spy1 = sinon.spy()
+    var spy2 = sinon.spy()
+    var spy3 = sinon.spy()
+    jerry.setData({firstName: 'Lucy'}, spy1)
+    jerry.setData({lastName: 'Blue'}, spy2)
+    jerry.setData({lastName: 'Blue'}, spy3)
+    setTimeout(function () {
+      spy1.should.have.been.called
+      spy2.should.have.been.called
+      spy3.should.have.been.called
+      spy1.should.be.calledBefore(spy2)
+      spy2.should.be.calledBefore(spy3)
+      jerry.flushCallbacks.should.be.deep.equal([])
+      done()
     }, 20)
   })
 })

@@ -7,6 +7,10 @@ virtual-template
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
+## Introduction
+
+Virtual-Template 结合了前端模板引擎和 [simple-virtual-dom](https://github.com/livoras/simple-virtual-dom)。可以让任意的前端模板引擎编译的结果转换成虚拟DOM，并且在数据状态更新的时候自动更新真正的DOM。
+
 ## Install
 
 ```html
@@ -119,8 +123,32 @@ jerry.setData({
 })
 ```
 
-### setData(data)
+### setData(data, [Boolean|Function])
 虚拟模版实例的方法，传入的data会extend（浅复制）到原来的旧的data上。然后会用新的data渲染HTML，从而构建virtual dom。新的virtual dom会和旧的virtual dom进行对比，跑一次 Virtual-DOM 算法，更新真正的DOM。
+
+**异步渲染：** 每次使用`setData`的时候，virtual-template不会马上执行对页面的更新操作。而是在异步地，在浏览器下一次进行页面重绘之前（`requestAnimationFrame`）执行虚拟DOM的构建和diff，然后对真正的DOM进行patch。这样做的好处就是不会让页面更新阻塞当前运行的JS，统一地更新DOM。
+
+```javascript
+jerry.setData({firstName: 'Lucy'})
+jerry.setData({lastName: 'Blue'})
+// 两次的setData，只会有一次的virtual-dom的diff和patch
+```
+
+`setData`默认是异步地，当第二个参数为函数的时候会在DOM更新完以后执行：
+
+```javascript
+jerry.setData({firstName: 'Lucy'}, function () {
+  alert('DOM has changed!')
+})
+```
+
+如果特殊场景下你需要执行`setData`以后就马上进行DOM的更新，可以把第二个参数设置为`true`。页面会同步更新：
+
+
+```javascript
+jerry.setData({firstName: 'lucy'}, true)
+alert('DOM has changed!')
+```
 
 ## Contribution
 
