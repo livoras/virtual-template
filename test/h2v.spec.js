@@ -5,7 +5,6 @@ var chai = require('chai')
 var fs = require('fs')
 
 chai.should()
-
 var jsdom = require('mocha-jsdom')
 jsdom()
 

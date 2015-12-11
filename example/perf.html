@@ -8,7 +8,7 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script type="text/javascript" src="./template.js"></script>
   <script type="text/javascript" src="../dist/virtual-template.js"></script>
-  
+
   <div class="container">
     <h1 class="blue" id="title">Title</h1>
     <div id='flip1' class="flip1">1</div>
@@ -60,6 +60,7 @@
 
 <script type="text/javascript">
 console.time('virtual-template')
+var s = +new Date()
 for (var i = 0, len = TIMES; i < len; i++) {
   if (i % 2 === 0) {
     vt.setData({
@@ -73,11 +74,13 @@ for (var i = 0, len = TIMES; i < len; i++) {
     })
   }
 }
+var allvt = (+new Date()) - s
 console.timeEnd('virtual-template')
 </script>
 
 <script>
 console.time('jquery')
+var s = +new Date()
 for (var i = 0, len = TIMES; i < len; i++) {
   if (i % 2 === 0) {
     $title.text('Even')
@@ -87,11 +90,13 @@ for (var i = 0, len = TIMES; i < len; i++) {
     $flip1.replaceWith($flip2)
   }
 }
+var alljQuery = (+new Date()) - s
 console.timeEnd('jquery')
 </script>
 
 <script>
 console.time('DOM')
+var s = +new Date()
 for (var i = 0, len = TIMES; i < len; i++) {
   if (i % 2 === 0) {
     title2.innerText = 'Even'
@@ -101,7 +106,23 @@ for (var i = 0, len = TIMES; i < len; i++) {
     flip3.parentNode.replaceChild(flip4, flip3)
   }
 }
+var allDOM = (+new Date()) - s
 console.timeEnd('DOM')
+
+// log('================ Phases Time ==============')
+// log('extending time: ' + extendTime + ', ' + getP(extendTime))
+// log('diffing time: ' + diffTime + ', ' + getP(diffTime))
+// log('html to virtual-dom time: ' + makingTime + ', ' + getP(makingTime))
+// log('patching time: ' + patchTime + ', ' + getP(patchTime))
+// log('all phases time:' + (diffTime + makingTime + patchTime + extendTime))
+
+// function getP(time) {
+//   return (time / allvt * 100).toFixed(2) + '%'
+// }
+
+// function log(msg) {
+//   console.log('%c' + msg, 'color: red;')
+// }
 </script>
 
 </body>
