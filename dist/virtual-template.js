@@ -196,6 +196,7 @@ function makeTemplateClass (compileFn) {
     this.vdom = this.makeVirtualDOM()
     this.dom = this.vdom.render()
     this.isDirty = false
+    this.flushCallbacks = []
   }
 
   _.extend(VirtualTemplate.prototype, {
@@ -215,22 +216,31 @@ function setData (data, isSync) {
   } else if (!this.isDirty) {
     this.isDirty = true
     var self = this
+    // cache all data change, and only refresh dom before browser's repainting
     _.nextTick(function () {
       self.flush()
-      if (typeof isSync === 'function') {
-        var callback = isSync
-        callback()
-      }
     })
+  }
+  if (typeof isSync === 'function') {
+    var callback = isSync
+    this.flushCallbacks.push(callback)
   }
 }
 
 function flush () {
+  // run virtual-dom algorithm
   var newVdom = this.makeVirtualDOM()
   var patches = diff(this.vdom, newVdom)
   patch(this.dom, patches)
   this.vdom = newVdom
   this.isDirty = false
+  var callbacks = this.flushCallbacks
+  for (var i = 0, len = callbacks.length; i < len; i++) {
+    if (callbacks[i]) {
+      callbacks[i]()
+    }
+  }
+  this.flushCallbacks = []
 }
 
 function makeVirtualDOM () {
