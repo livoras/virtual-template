@@ -9,7 +9,7 @@ virtual-template
 
 ## Introduction
 
-Virtual-Template 结合了前端模板引擎和 [simple-virtual-dom](https://github.com/livoras/simple-virtual-dom)。可以让任意的前端模板引擎编译的结果转换成虚拟DOM，并且在数据状态更新的时候自动更新真正的DOM。
+virtual-template 结合了前端模板引擎和 [simple-virtual-dom](https://github.com/livoras/simple-virtual-dom)。可以让任意的前端模板引擎编译的结果转换成虚拟DOM，并且在数据状态更新的时候自动更新真正的DOM。
 
 ## Install
 
