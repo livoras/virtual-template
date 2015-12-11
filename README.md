@@ -131,10 +131,10 @@ jerry.setData({
 ```javascript
 jerry.setData({firstName: 'Lucy'})
 jerry.setData({lastName: 'Blue'})
-// 两次的setData，只会有一次的virtual-dom的diff和patch
+// 两次的 setData，只会有一次的 virtual-dom 的 diff 和 patch
 ```
 
-`setData`默认是异步地，当第二个参数为函数的时候会在DOM更新完以后执行：
+`setData`默认是异步的，当第二个参数为函数的时候会在DOM更新完以后执行：
 
 ```javascript
 jerry.setData({firstName: 'Lucy'}, function () {
