@@ -95,6 +95,7 @@ process.umask = function() { return 0; };
 window.vTemplate = require('./lib/virtual-template')
 
 },{"./lib/virtual-template":5}],3:[function(require,module,exports){
+(function (process){
 /**
  * Convert HTML string to simple-virtual-dom
  */
@@ -150,9 +151,14 @@ function attrsToObj (dom) {
   return props
 }
 
+if (process.env.NODE_ENV) {
+  h2v.toVirtualDOM = toVirtualDOM
+}
+
 module.exports = h2v
 
-},{"simple-virtual-dom":6}],4:[function(require,module,exports){
+}).call(this,require('_process'))
+},{"_process":1,"simple-virtual-dom":6}],4:[function(require,module,exports){
 (function (process){
 var _ = {}
 
