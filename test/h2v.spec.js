@@ -37,4 +37,32 @@ describe('Make virtual-dom from html', function () {
       domString.should.be.equal(htmlString)
     }
   })
+
+  it('Test textContent.', function () {
+    var vd = h2v.toVirtualDOM({
+      nodeType: 1,
+      tagName: 'div',
+      attributes: [],
+      style: {},
+      childNodes: [{
+        nodeType: 3,
+        textContent: 'This is a string'
+      }]
+    })
+    vd.children[0].should.be.equal('This is a string')
+  })
+
+  it('Test nodeValue for IE.', function () {
+    var vd = h2v.toVirtualDOM({
+      nodeType: 1,
+      tagName: 'div',
+      attributes: [],
+      style: {},
+      childNodes: [{
+        nodeType: 3,
+        nodeValue: 'This is a string'
+      }]
+    })
+    vd.children[0].should.be.equal('This is a string')
+  })
 })

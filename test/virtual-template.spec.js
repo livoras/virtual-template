@@ -167,4 +167,26 @@ describe('Test Virtual-Template', function () {
       done()
     }, 20)
   })
+
+  it('Test with invalid callbacks', function (done) {
+    var userTpl = read('user.html')
+    var userCompiler = template.compile(userTpl)
+    var jerry = vt(userCompiler, {
+      firstName: 'Jerry',
+      lastName: 'Green',
+      age: 12,
+      introduction: 'I am Jerry!!'
+    })
+    var spy1 = sinon.spy()
+    var spy2 = sinon.spy()
+    var spy3 = null
+    jerry.setData({firstName: 'Lucy'}, spy1)
+    jerry.setData({lastName: 'Blue'}, spy2)
+    jerry.setData({lastName: 'Blue'}, spy3)
+    setTimeout(function () {
+      spy1.should.have.been.called
+      spy2.should.have.been.called
+      done()
+    })
+  })
 })
