@@ -10,12 +10,12 @@ jsdom()
 
 describe('Make virtual-dom from html', function () {
   it('Making a single root.', function () {
-    var el = h2v('<ul></ul>')
+    var el = h2v('<ul></ul>').vdom
     el.tagName.should.be.equal('ul')
   })
 
   it('If has multiple roots, make a div wrap them all.', function () {
-    var el = h2v('<ul></ul><p></p>')
+    var el = h2v('<ul></ul><p></p>').vdom
     el.tagName.should.be.equal('div')
   })
 
@@ -27,7 +27,7 @@ describe('Make virtual-dom from html', function () {
     ]
     for (var i = 0, len = htmls.length; i < len; i++) {
       var htmlString = htmls[i]
-      var el = h2v(htmlString)
+      var el = h2v(htmlString).vdom
       var dom = el.render()
       var div = document.createElement('div')
       div.appendChild(dom)

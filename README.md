@@ -166,7 +166,7 @@ clone源码：
 
     cd virtual-template && npm install
 
-开发运行时：
+开发时：
 
     npm run dev
 

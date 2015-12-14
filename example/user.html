@@ -45,7 +45,9 @@
     })
   }, 1000)
 
+  var count = 0
   setInterval(function () {
+    if (count++ > 10) return
     var tags = user.data.tags
     tags.push('New Tag...')
     user.setData({

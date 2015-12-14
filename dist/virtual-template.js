@@ -108,7 +108,10 @@ function h2v (html) {
   root = (root.childNodes.length === 1)
     ? root.childNodes[0]
     : root
-  return toVirtualDOM(root)
+  return {
+    vdom: toVirtualDOM(root),
+    dom: root
+  }
 }
 
 function toVirtualDOM (dom) {
@@ -137,8 +140,12 @@ function attrsToObj (dom) {
   for (var i = 0, len = attrs.length; i < len; i++) {
     var name = attrs[i].name
     var value = attrs[i].value
-    // TODO: fix IE style string.
-    props[name] = value
+    if (value && value !== 'null') {
+      props[name] = value
+    }
+  }
+  if (dom.style.cssText) {
+    props.style = dom.style.cssText
   }
   return props
 }
@@ -172,10 +179,18 @@ if (process.env.NODE_ENV) {
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     window.oRequestAnimationFrame ||
-    window.msRequestAnimationFrame ||
-    window.setTimeout
-  _.nextTick = function () {
-    nextTick.apply(window, arguments)
+    window.msRequestAnimationFrame
+
+  if (nextTick) {
+    _.nextTick = function () {
+      nextTick.apply(window, arguments)
+    }
+  } else {
+    _.nextTick = function (func) {
+      // for IE, setTimeout is a cool object instead of function
+      // so you cannot simply use nextTick.apply
+      setTimeout(func)
+    }
   }
 }
 
@@ -193,8 +208,9 @@ var patch = svd.patch
 function makeTemplateClass (compileFn) {
   function VirtualTemplate (data) {
     this.data = data
-    this.vdom = this.makeVirtualDOM()
-    this.dom = this.vdom.render()
+    var domAndVdom = this.makeVirtualDOM()
+    this.vdom = domAndVdom.vdom
+    this.dom = domAndVdom.dom
     this.isDirty = false
     this.flushCallbacks = []
   }
@@ -229,7 +245,7 @@ function setData (data, isSync) {
 
 function flush () {
   // run virtual-dom algorithm
-  var newVdom = this.makeVirtualDOM()
+  var newVdom = this.makeVirtualDOM().vdom
   var patches = diff(this.vdom, newVdom)
   patch(this.dom, patches)
   this.vdom = newVdom
@@ -245,8 +261,7 @@ function flush () {
 
 function makeVirtualDOM () {
   var html = this.compileFn(this.data)
-  var vdom = h2v(html)
-  return vdom
+  return h2v(html)
 }
 
 module.exports = function (compileFn, data) {
