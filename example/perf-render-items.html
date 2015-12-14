@@ -1,0 +1,76 @@
+<!doctype html>
+
+<html>
+<head>
+</head>
+
+<body>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script type="text/javascript" src="./template.js"></script>
+  <script type="text/javascript" src="../dist/virtual-template.js"></script>
+
+  <div id="virtual-template">
+    <h1>virtual-template</h1>
+  </div>
+
+  <div>
+    <h1>art-template</h1>
+    <div id="art-template"></div>
+  </div>
+
+  <div>
+    <h1>jquery</h1>
+    <div id="jquery"></div>
+  </div>
+
+  <script type="text/html" id="tpl">
+  <div class="container">
+    <ul>
+      {each items as item}
+      <li class="item">{$index + 1}: {item}</li>
+      {/each}
+    </ul>
+  </div>
+  </script>
+</body>
+
+<script>
+  template.config('openTag', '{')
+  template.config('closeTag', '}')
+  var items = []
+  for(var i = 0; i < 2000; i++) {
+    items.push('item - ' + Math.random())
+  }
+  var compiler = template.compile($('#tpl').html())
+</script>
+
+<script type="text/javascript">
+console.time('virtual-template')
+var vt = vTemplate(compiler, {
+  items: items
+})
+document.getElementById('virtual-template').appendChild(vt.dom)
+console.timeEnd('virtual-template')
+</script>
+
+<script>
+console.time('art-template')
+var html = compiler({
+  items: items
+})
+document.getElementById('art-template').innerHTML = html
+console.timeEnd('art-template')
+</script>
+
+<script>
+console.time('jquery')
+var $ul = $('<ul></ul>')
+items.forEach(function (item, i) {
+  $ul.append($('<li class="item">' + (i + 1) + ':' + item + '</li>'))
+})
+$('#jquery').html($ul)
+console.timeEnd('jquery')
+</script>
+
+</body>
+</html>
