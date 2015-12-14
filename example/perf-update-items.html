@@ -37,8 +37,9 @@
 <script>
   template.config('openTag', '{')
   template.config('closeTag', '}')
+  var COUNT = 2000
   var items = []
-  for(var i = 0; i < 2000; i++) {
+  for(var i = 0; i < COUNT; i++) {
     items.push('item - ' + Math.random())
   }
   var compiler = template.compile($('#tpl').html())
@@ -66,7 +67,7 @@
   $('#jquery').html($ul)
 
   var newItems = []
-  for(var i = 0; i < 2000; i++) {
+  for(var i = 0; i < COUNT; i++) {
     newItems.push('new item - ' + Math.random())
   }
 
