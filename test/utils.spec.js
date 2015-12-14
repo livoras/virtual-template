@@ -54,7 +54,7 @@ describe('Test utilities', function () {
     }, 2)
   })
 
-  it('Test nextTick should when has requestAnimationFrame', function (done) {
+  it('Test nextTick when has requestAnimationFrame', function (done) {
     delete process.env.NODE_ENV
     var fn = sinon.spy()
     window.requestAnimationFrame = fn
@@ -62,7 +62,20 @@ describe('Test utilities', function () {
     var new_ = require('../lib/utils.js')
     var spy = sinon.spy()
     new_.nextTick(spy)
-    fn.should.has.been.called
+    fn.should.has.been.calledWith(spy)
     done()
+  })
+
+  it('Test nextTick when has no requestAnimationFrame', function (done) {
+    delete process.env.NODE_ENV
+    window.requestAnimationFrame = null
+    delete require.cache[require.resolve('../lib/utils.js')]
+    var new_ = require('../lib/utils.js')
+    var spy = sinon.spy()
+    new_.nextTick(spy)
+    setTimeout(function () {
+      spy.should.have.been.called
+      done()
+    }, 2)
   })
 })
