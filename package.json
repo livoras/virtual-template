@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/livoras/virtual-template",
   "dependencies": {
-    "simple-virtual-dom": "^0.1.6"
+    "simple-virtual-dom": "^0.1.7"
   },
   "devDependencies": {
     "art-template": "^3.0.3",
