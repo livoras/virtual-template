@@ -1,11 +1,9 @@
 <h1 name="nerrg" age="{age}">{title}</h1>
 <ul>
-    {each list as value i}
-        <li>索引 {i + 1} ：{value}</li>
+    {each list as value key}
+        <li>{key + 1} : {value}</li>
     {/each}
-    {if ...}
-      ...
-    {else}
-      ...
-    {/if}
 </ul>
+{if age === 12}
+  <div id="toggle">shi</div>
+{/if}

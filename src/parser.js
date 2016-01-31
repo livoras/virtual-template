@@ -1,21 +1,22 @@
 var Tokenizer = require('./tokenizer')
 var types = require('./tokentypes')
 
-// TK_TEXT: 1,
-// TK_IF: 2,
-// TK_END_IF: 3,
-// TK_ELSE_IF: 4,
-// TK_ELSE: 5,
-// TK_EACH: 6,
-// TK_END_EACH: 7,
-// TK_GT: 8,
-// TK_SLASH_GT: 9,
-// TK_TAG_NAME: 10,
-// TK_ATTR_NAME: 11,
-// TK_ATTR_EQUAL: 12,
-// TK_ATTR_STRING: 13,
-// TK_CLOSE_TAG: 13,
-// TK_EOF: 100
+var typesName = {}
+typesName[types.TK_TEXT] = "text node"
+typesName[types.TK_IF] = "{if}"
+typesName[types.TK_END_IF] = "{/if}"
+typesName[types.TK_ELSE_IF] = "{elseif ..}"
+typesName[types.TK_ELSE] = "{else}"
+typesName[types.TK_EACH] = "{each ... }"
+typesName[types.TK_END_EACH] = "{/each}"
+typesName[types.TK_GT] = ">"
+typesName[types.TK_SLASH_GT] = "/>"
+typesName[types.TK_TAG_NAME] = "open tag name"
+typesName[types.TK_ATTR_NAME] = "attribute name"
+typesName[types.TK_ATTR_EQUAL] = "="
+typesName[types.TK_ATTR_STRING] = "attribute string"
+typesName[types.TK_CLOSE_TAG] = "close tag"
+typesName[types.TK_EOF] = "EOF"
 
 function Parser (input) {
   this.tokens = new Tokenizer(input)
@@ -269,7 +270,7 @@ pp.parseError = function (name) {
 pp.eat = function (type) {
   var token = this.tokens.nextToken()
   if (token.type !== type) {
-    this.error('expect token type ' + type + ', but got ' + token.type)
+    this.error('expect a(n) ' + typesName[type] + ', but got a(n) ' + typesName[token.type])
   }
   return token
 }

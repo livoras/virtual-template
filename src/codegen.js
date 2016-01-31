@@ -3,15 +3,16 @@ var codeGenMethods = {}
 
 function CodeGen (astRoot) {
   this.nodeIndex = 1
-  this.lines = []
+  this.lines = ['  var node0 = {children: []};']
   this.walkRoot(astRoot)
+  this.lines.push('  return _el_("div", {}, node0.children);')
   this.body = this.lines.join('\n');
 }
 
 var pp = CodeGen.prototype
 
 pp.walkRoot = function (astRoot) {
-  this.walk(astRoot, '  ', '_')
+  this.walk(astRoot, '  ', '0')
 }
 
 pp.walk = function (node, indent, parentIndex) {
@@ -30,13 +31,11 @@ pp.genStat = function (node, indent, parentIndex) {
 }
 
 pp.genIfStat = function (node, indent, parentIndex) {
-  // body...
   var expr = node.label.replace(/(^\{\s*if\s*)|(\s*\}$)/g, '')
   this.lines.push('\n' + indent + 'if (' + expr + ') {')
   if (node.body) {
     this.walk(node.body, inc(indent), parentIndex)
   }
-  // this.lines.push(indent + '}')
   if (node.elseifs) {
     var self = this
     _.each(node.elseifs, function (elseif) {
@@ -56,7 +55,6 @@ pp.genElseIf = function (node, indent, parentIndex) {
   if (node.body) {
     this.walk(node.body, inc(indent), parentIndex)
   }
-  // this.lines.push(indent + '}')
 }
 
 pp.genEachStat = function (node, indent, parentIndex) {
@@ -79,19 +77,19 @@ pp.genEachStat = function (node, indent, parentIndex) {
 
 pp.genNode = function (node, indent, parentIndex) {
   var currentIndex = this.nodeIndex++
-  this.lines.push(
-    indent +
-    'var node' + 
-    currentIndex + ' = _el_("' + node.name + 
-    '", ' + pp.getAttrs(node) + ', []);'
-  )
-  this.lines.push(
-    indent +
-    'node' + parentIndex + '.children.push(node' + currentIndex + ')'
-  )
+  var nodeName = 'node' + currentIndex
+  this.lines.push(indent + 'var ' + nodeName + ' = {children: []};')
   if (node.body) {
     this.walk(node.body, indent, currentIndex)
   }
+  this.lines.push(
+    indent + nodeName + ' = _el_("' + node.name +
+    '", ' + pp.getAttrs(node) + ', ' + nodeName + '.children);'
+  )
+  this.lines.push(
+    indent +
+    'node' + parentIndex + '.children.push(node' + currentIndex + ');'
+  )
 }
 
 pp.genString = function (node, indent, parentIndex) {

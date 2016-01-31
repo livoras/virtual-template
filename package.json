@@ -8,11 +8,14 @@
   },
   "scripts": {
     "test": "npm test",
-    "dev": "nodemon --exec mocha"
+    "dev": "NODE_ENV=dev nodemon --exec mocha"
   },
   "author": "Livoras",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "cheerio": "^0.19.0",
+    "jsdom": "^8.0.1",
     "simple-virtual-dom": "^0.1.8"
   }
 }
