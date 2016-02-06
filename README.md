@@ -38,7 +38,7 @@ var jerry = userTpl({
   tags: ['JavaScript', 'Virtual-Template', 'Web']
 })
 
-// insert the real DOM element into document 
+// insert the real DOM element into document after 1s
 document.body.appendChild(jerry.dom)
 
 // update dom with new data
