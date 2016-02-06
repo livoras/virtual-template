@@ -9,6 +9,7 @@ A simple template engine using virtual-dom.
 HTML: 
 
 ```html
+<script src="virtual-template.min.js"></script>
 <script id="user" type="text/template">
   <h1>{firstName + ' ' + lastName}</h1>
   <ul>
