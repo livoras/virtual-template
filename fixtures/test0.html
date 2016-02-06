@@ -1,0 +1,18 @@
+<div>
+  <h1>{title}</h1>
+  <ul>
+    {each users as user i}
+    <li class="user-item">
+      <img src="/avatars/{user.id}" />
+      <span>NO.{i + 1} - {user.name}</span>
+      {if user.isAdmin}
+        I am admin
+      {elseif user.isAuthor}
+        I am author
+      {else}
+        I am nobody
+      {/if}
+    </li>
+    {/each}
+  </ul>
+</div>
