@@ -3,7 +3,7 @@ machine:
     version: 4
 dependencies:
   pre:
-    - npm install -g istanbul standard
+    - npm install -g istanbul
 test:
   override:
-    - standard && istanbul cover ./node_modules/mocha/bin/_mocha ./test/*.spec.js -- -R spec && cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js
+    - node ./node_modules/eslint/bin/eslint.js lib test && istanbul cover ./node_modules/mocha/bin/_mocha ./test/*.spec.js -- -R spec && cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js
