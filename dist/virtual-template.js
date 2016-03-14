@@ -297,27 +297,35 @@ function diff (oldTree, newTree) {
 function dfsWalk (oldNode, newNode, index, patches) {
   var currentPatch = []
 
-  // node is removed
+  // Node is removed.
   if (newNode === null) {
-    // will be removed when perform reordering, so has no needs to do anthings in here
-  // textNode content replacing
+    // Real DOM node will be removed when perform reordering, so has no needs to do anthings in here
+  // TextNode content replacing
   } else if (_.isString(oldNode) && _.isString(newNode)) {
     if (newNode !== oldNode) {
       currentPatch.push({ type: patch.TEXT, content: newNode })
     }
-  // nodes are the same, diff its props and children
+  // Nodes are the same, diff old node's props and children
   } else if (
       oldNode.tagName === newNode.tagName &&
       oldNode.key === newNode.key
     ) {
-    // diff props
+    // Diff props
     var propsPatches = diffProps(oldNode, newNode)
     if (propsPatches) {
       currentPatch.push({ type: patch.PROPS, props: propsPatches })
     }
-    // diff children
-    diffChildren(oldNode.children, newNode.children, index, patches, currentPatch)
-  // nodes are not the same, replace the old node with new node
+    // Diff children. If the node has a `ignore` property, do not diff children
+    if (!isIgnoreChildren(newNode)) {
+      diffChildren(
+        oldNode.children,
+        newNode.children,
+        index,
+        patches,
+        currentPatch
+      )
+    }
+  // Nodes are not the same, replace the old node with new node
   } else {
     currentPatch.push({ type: patch.REPLACE, node: newNode })
   }
@@ -356,7 +364,7 @@ function diffProps (oldNode, newNode) {
   var key, value
   var propsPatches = {}
 
-  // find out different properties
+  // Find out different properties
   for (key in oldProps) {
     value = oldProps[key]
     if (newProps[key] !== value) {
@@ -365,7 +373,7 @@ function diffProps (oldNode, newNode) {
     }
   }
 
-  // find out new property
+  // Find out new property
   for (key in newProps) {
     value = newProps[key]
     if (!oldProps.hasOwnProperty(key)) {
@@ -374,12 +382,16 @@ function diffProps (oldNode, newNode) {
     }
   }
 
-  // if properties all are identical
+  // If properties all are identical
   if (count === 0) {
     return null
   }
 
   return propsPatches
+}
+
+function isIgnoreChildren (node) {
+  return (node.props && node.props.hasOwnProperty('ignore'))
 }
 
 module.exports = diff
@@ -438,9 +450,7 @@ Element.prototype.render = function () {
     _.setAttr(el, propName, propValue)
   }
 
-  var children = this.children || []
-
-  _.each(children, function (child) {
+  _.each(this.children, function (child) {
     var childEl = (child instanceof Element)
       ? child.render()
       : document.createTextNode(child)
@@ -486,7 +496,10 @@ function applyPatches (node, currentPatches) {
   _.each(currentPatches, function (currentPatch) {
     switch (currentPatch.type) {
       case REPLACE:
-        node.parentNode.replaceChild(currentPatch.node.render(), node)
+        var newNode = (typeof currentPatch.node === 'string')
+          ? document.createTextNode(currentPatch.node)
+          : currentPatch.node.render()
+        node.parentNode.replaceChild(newNode, node)
         break
       case REORDER:
         reorderChildren(node, currentPatch.moves)
